@@ -95,15 +95,10 @@
     }
   }
 
-/* Resolve fragment paths relative to the site root, not the current page.
-     This fixes header/footer loading from any subfolder (e.g. blogs/).       */
-     var _base = (function () {
-      var depth = window.location.pathname
-        .replace(/\/[^/]*$/, "")   /* strip filename */
-        .split("/")
-        .filter(Boolean).length;
-      return depth > 0 ? "../".repeat(depth) : "./";
-    })();
+var _base = (function () {
+  var path = window.location.pathname.replace(/\/[^/]*$/, "/");
+  return path || "/";
+})();
   
     loadFragment(_base + "header.html", "site-header", function () {
       headerLoaded = true;
