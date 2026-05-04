@@ -86,13 +86,24 @@
   var headerLoaded = false;
   var footerLoaded = false;
 
-  function onFragmentReady() {
+function onFragmentReady() {
     if (headerLoaded && footerLoaded) {
+      rewriteFragmentLinks();
       initMobileNav();
       initScrollReveal();
       initActiveNavLink();
       initNewsletter();
     }
+  }
+
+  function rewriteFragmentLinks() {
+    document.querySelectorAll("#site-header a, #site-footer a").forEach(function(link) {
+      var href = link.getAttribute("href");
+      if (!href) return;
+      if (href.startsWith("http") || href.startsWith("mailto") || href.startsWith("tel")) return;
+      if (href.startsWith("/")) return;
+      link.setAttribute("href", _base + href);
+    });
   }
 
 var _base = (function () {
