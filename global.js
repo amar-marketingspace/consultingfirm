@@ -96,8 +96,14 @@
   }
 
 var _base = (function () {
+  var scripts = document.querySelectorAll('script[src*="global.js"]');
+  if (scripts.length) {
+    var src = scripts[scripts.length - 1].src;
+    return src.replace(/global\.js.*$/, "");
+  }
+  // Fallback: walk up from current path until we hit the root
   var path = window.location.pathname.replace(/\/[^/]*$/, "/");
-  return path || "/";
+  return path;
 })();
   
     loadFragment(_base + "header.html", "site-header", function () {
